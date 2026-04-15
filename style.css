@@ -1434,11 +1434,16 @@ address strong {
 /* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
+
+/* ── TABLET (max 1024px) ─────────────────── */
 @media (max-width: 1024px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
+
   .about-grid, .faq-grid, .booking-grid { grid-template-columns: 1fr; gap: 48px; }
   .about-img-wrap { max-width: 440px; }
+  .about-content { padding-left: 0; }
+
   .service-cards { grid-template-columns: 1fr 1fr; }
   .journey-steps { grid-template-columns: 1fr 1fr; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1446,21 +1451,191 @@ address strong {
   .hero-img-panel { display: none; }
   .hero-headline { font-size: clamp(44px, 10vw, 70px); }
   .social-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .journey-step { padding: 36px 24px; }
 }
+
+/* ── MOBILE (max 640px) ─────────────────── */
 @media (max-width: 640px) {
-  .container { padding: 0 20px; }
+  /* Base */
+  .container { padding: 0 18px; }
+
+  /* ── NAV ── */
+  .nav-inner { padding: 0 18px; }
+  .nav-brand-name { font-size: 16px; }
+  .nav-brand-sub { font-size: 7px; letter-spacing: 2px; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    align-items: flex-end;
+    padding-bottom: 52px;
+  }
+  .hero-content {
+    padding: 0 18px;
+    padding-top: 80px; /* compensate fixed nav */
+  }
+  .hero-eyebrow { font-size: 8px; letter-spacing: 2.5px; }
+  .hero-headline { font-size: clamp(36px, 11vw, 54px); }
+  .hero-sub { font-size: 13px; max-width: 100%; margin-bottom: 32px; }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-ghost {
+    text-align: center;
+    padding: 16px 20px;
+    width: 100%;
+  }
+  .hero-scroll { display: none; }
+  .hero-lines { display: none; }
+
+  /* ── MARQUEE ── */
+  .marquee-track span { font-size: 8px; letter-spacing: 2px; padding: 0 22px; }
+
+  /* ── SOBRE ── */
+  .about-section { padding: 72px 0 90px; }
+  .about-img-wrap { max-width: 100%; margin-bottom: 36px; }
+  .about-img-badge { left: 10px; bottom: -14px; padding: 16px 18px; }
+  .about-img-badge .num { font-size: 32px; }
+  .about-title { font-size: clamp(28px, 8vw, 40px); }
+  .about-body { font-size: 13px; }
+
+  /* ── STATS ── */
+  .stats-section { padding: 48px 0; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 8px;
+  }
+  .stat-num { font-size: clamp(36px, 10vw, 50px); }
+
+  /* ── SERVIÇOS ── */
+  .services-section { padding: 70px 0; }
+  .section-header { margin-bottom: 40px; }
+  .section-title { font-size: clamp(26px, 8vw, 38px); }
+  .section-sub { font-size: 12.5px; }
+
+  /* Tab bar scrollável horizontalmente */
+  .service-tabs {
+    display: flex;
+    width: calc(100% + 36px);
+    margin-left: -18px;
+    position: static;
+    transform: none;
+    left: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    border: none;
+    border-top: 1px solid var(--gold-hr);
+    border-bottom: 1px solid var(--gold-hr);
+    margin-bottom: 32px;
+    padding: 0 18px;
+  }
+  .service-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-right: 1px solid var(--gold-hr);
+    padding: 13px 18px;
+    font-size: 8px;
+  }
+  .tab-btn:last-child { border-right: none; }
+
   .service-cards { grid-template-columns: 1fr; }
+  .service-card { padding: 32px 22px; }
+
+  /* ── JORNADA ── */
+  .journey-section { padding: 70px 0; }
   .journey-steps { grid-template-columns: 1fr; }
-  .tech-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr; }
-  .hours-divider { display: none; }
+  .journey-step {
+    border-right: none;
+    border-bottom: 1px solid var(--gold-hr);
+    padding: 32px 0;
+  }
+  .journey-step:last-child { border-bottom: none; }
+  .step-number { font-size: 52px; margin-bottom: 14px; }
+
+  /* ── TECNOLOGIAS ── */
+  .tech-section { padding: 70px 0; }
+  .tech-grid { grid-template-columns: 1fr 1fr; }
+  .tech-item { padding: 28px 18px; }
+
+  /* ── DEPOIMENTOS ── */
+  .testimonials-section { padding: 70px 0; }
+  .testimonials-slider { margin-top: 40px; }
+  .testimonial-card {
+    min-width: calc(100vw - 36px);
+    max-width: calc(100vw - 36px);
+    padding: 32px 24px;
+  }
+
+  /* ── FAQ ── */
+  .faq-section { padding: 70px 0; }
+  .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+  .faq-aside h3 { font-size: 28px; }
+  .faq-aside p { font-size: 12.5px; }
+
+  /* ── AGENDAMENTO ── */
+  .booking-section { padding: 70px 0; }
+  .booking-grid { grid-template-columns: 1fr; gap: 40px; }
+  .booking-info h3 { font-size: 28px; }
   .form-row { grid-template-columns: 1fr; }
-  .testimonial-card { min-width: 300px; }
-  .social-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-bottom { flex-direction: column; text-align: center; }
-  .cookie-banner { flex-direction: column; align-items: flex-start; }
-  .hero { padding-bottom: 60px; }
-  .about-section, .services-section, .journey-section,
-  .tech-section, .testimonials-section, .faq-section,
-  .booking-section, .social-section { padding: 80px 0; }
+
+  /* ── HORÁRIOS ── */
+  .hours-section { padding: 52px 0; }
+  .hours-inner {
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+  .hours-divider { display: none; }
+  .hours-time { font-size: 26px; }
+
+  /* ── INSTAGRAM / SOCIAL ── */
+  .social-section { padding: 70px 0; }
+  .social-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── FOOTER ── */
+  footer { padding: 56px 18px 32px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; margin-bottom: 40px; }
+  .footer-brand p { max-width: 100%; }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  /* ── COOKIE BANNER ── */
+  .cookie-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+    gap: 12px;
+  }
+  .cookie-banner p { font-size: 11px; }
+  .cookie-btn { width: 100%; text-align: center; padding: 13px 20px; }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float { bottom: 20px; right: 18px; width: 50px; height: 50px; }
+  .wa-float svg { width: 24px; height: 24px; }
+
+  /* ── BOTÕES gerais ── */
+  .btn-primary, .btn-ghost { padding: 14px 24px; }
+}
+
+/* ── EXTRA PEQUENO (max 390px) ───────────── */
+@media (max-width: 390px) {
+  .hero-headline { font-size: 32px; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .tab-btn { padding: 13px 14px; font-size: 7.5px; }
+  .about-img-badge { left: 0; padding: 14px 16px; }
+  .about-img-badge .num { font-size: 28px; }
+  .nav-brand-name { font-size: 14px; }
+  .nav-brand-sub { display: none; }
+  .stat-num { font-size: 34px; }
 }
