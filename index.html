@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dra. Fulana de Tal — Farmacêutica Esteta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   TOKENS & RESET
+══════════════════════════════════════════ */
+:root {
+  --ink:      #0E1A14;
+  --ink-mid:  #1A2F22;
+  --ink-soft: #243B2E;
+  --jade:     #2D5040;
+  --jade-lt:  #3A6652;
+  --gold:     #C9A96E;
+  --gold-lt:  #DEC99A;
+  --gold-dim: rgba(201,169,110,.22);
+  --gold-hr:  rgba(201,169,110,.18);
+  --cream:    #F7F3EE;
+  --cream-dk: #EDE6DA;
+  --mist:     #8FA398;
+  --white:    #FDFCFA;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'Jost', system-ui, sans-serif;
+
+  --ease: cubic-bezier(.4,0,.2,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --r: 2px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+img { display:block; max-width:100%; }
+a  { text-decoration:none; color:inherit; }
+
+/* ══════════════════════════════════════════
+   UTILITY
+══════════════════════════════════════════ */
+.container { max-width:1220px; margin:0 auto; padding:0 32px; }
+.tag {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  font-family: var(--font-sans);
+}
+.serif { font-family: var(--font-serif); }
+.divider-gold {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto;
+}
+
+/* Scroll reveal */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+[data-reveal].visible {
+  opacity: 1;
+  transform: none;
+}
+[data-delay="1"] { transition-delay: .1s; }
+[data-delay="2"] { transition-delay: .2s; }
+[data-delay="3"] { transition-delay: .3s; }
+[data-delay="4"] { transition-delay: .4s; }
+[data-delay="5"] { transition-delay: .5s; }
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  transition: background .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(14,26,20,.96);
+  backdrop-filter: blur(12px);
+  border-color: var(--gold-hr);
+}
+.nav-inner {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.nav-brand-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--gold-lt);
+  letter-spacing: 1px;
+}
+.nav-brand-sub {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+}
+.nav-links a {
+  display: block;
+  padding: 8px 13px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mist);
+  transition: color .25s;
+}
+.nav-links a:hover { color: var(--gold-lt); }
+
+/* Dropdown */
+.nav-item { position: relative; }
+.nav-drop {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0B1510;
+  border: 1px solid var(--gold-hr);
+  min-width: 230px;
+  padding: 10px 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+.nav-item:hover .nav-drop {
+  opacity: 1;
+  pointer-events: auto;
+}
+.nav-drop a {
+  display: block;
+  padding: 9px 22px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--mist);
+}
+.nav-drop a:hover { color: var(--gold); background: rgba(201,169,110,.05); }
+
+.nav-cta {
+  padding: 9px 22px !important;
+  border: 1px solid var(--gold);
+  color: var(--gold) !important;
+  letter-spacing: 2px;
+  font-size: 9px !important;
+  transition: background .25s, color .25s !important;
+}
+.nav-cta:hover {
+  background: var(--gold) !important;
+  color: var(--ink) !important;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+}
+.hamburger span {
+  display: block;
+  width: 24px; height: 1.5px;
+  background: var(--gold);
+  transition: transform .3s, opacity .3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,18,14,.97);
+  z-index: 800;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s;
+}
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu a {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  color: var(--gold-lt);
+  letter-spacing: 2px;
+  transition: color .2s;
+}
+.mobile-menu a:hover { color: var(--white); }
+.mobile-menu .mm-tag {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: -16px;
+}
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 80px;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 70% 40%, rgba(45,80,64,.35) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 80% at 20% 80%, rgba(201,169,110,.08) 0%, transparent 60%),
+    linear-gradient(160deg, #060E09 0%, #0E1A14 45%, #13231A 100%);
+}
+/* decorative noise grain */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  background-size: 160px;
+  opacity: .6;
+  pointer-events: none;
+}
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-lines::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 58%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim) 30%, var(--gold-dim) 70%, transparent);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+}
+.hero-eyebrow {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--gold);
+}
+.hero-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 7vw, 100px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--white);
+  max-width: 600px;
+  margin-bottom: 28px;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--gold-lt);
+}
+.hero-sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--mist);
+  max-width: 380px;
+  line-height: 1.8;
+  margin-bottom: 44px;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 15px 34px;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  transition: background .25s, color .25s;
+  display: inline-block;
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--gold);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--mist);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 15px 34px;
+  border: 1px solid var(--gold-dim);
+  cursor: pointer;
+  transition: border-color .25s, color .25s;
+  display: inline-block;
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold-lt);
+}
+
+/* Hero scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: .5;
+}
+.hero-scroll span {
+  font-size: 7px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  writing-mode: vertical-rl;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity:.3; transform:scaleY(1); }
+  50% { opacity:1; transform:scaleY(1.1); }
+}
+
+/* Floating image panel */
+.hero-img-panel {
+  position: absolute;
+  right: 0; top: 0;
+  width: 38%;
+  height: 100%;
+  overflow: hidden;
+}
+.hero-img-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--ink) 0%, transparent 40%);
+  z-index: 1;
+}
+.hero-img-panel img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(20%) brightness(.85);
+}
+/* Placeholder when no image */
+.hero-img-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(160deg, var(--ink-mid), var(--jade) 60%, var(--ink));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-img-placeholder::after {
+  content: '✦';
+  font-size: 80px;
+  color: rgba(201,169,110,.12);
+}
+
+/* ══════════════════════════════════════════
+   MARQUEE STRIP
+══════════════════════════════════════════ */
+.marquee-strip {
+  border-top: 1px solid var(--gold-hr);
+  border-bottom: 1px solid var(--gold-hr);
+  background: var(--ink-mid);
+  overflow: hidden;
+  padding: 14px 0;
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  animation: marqueeScroll 24s linear infinite;
+  white-space: nowrap;
+}
+.marquee-track span {
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 0 36px;
+  flex-shrink: 0;
+}
+.marquee-track span::after {
+  content: '·';
+  margin-left: 36px;
+  color: var(--mist);
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════════════════
+   SOBRE (ABOUT)
+══════════════════════════════════════════ */
+.about-section {
+  padding: 120px 0;
+  background: var(--ink);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-img-wrap {
+  position: relative;
+}
+.about-img-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--ink-mid);
+}
+.about-img-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .7s var(--ease);
+}
+.about-img-frame:hover img { transform: scale(1.04); }
+/* decorative corner accents */
+.about-img-frame::before,
+.about-img-frame::after {
+  content: '';
+  position: absolute;
+  width: 40px; height: 40px;
+  border-color: var(--gold);
+  border-style: solid;
+  z-index: 2;
+}
+.about-img-frame::before {
+  top: -8px; left: -8px;
+  border-width: 1px 0 0 1px;
+}
+.about-img-frame::after {
+  bottom: -8px; right: -8px;
+  border-width: 0 1px 1px 0;
+}
+.about-img-badge {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 20px 24px;
+  z-index: 3;
+}
+.about-img-badge .num {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1;
+  display: block;
+}
+.about-img-badge .lbl {
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: block;
+}
+.about-content { padding-left: 10px; }
+.about-tag { margin-bottom: 18px; }
+.about-title {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+.about-title em { font-style: italic; color: var(--gold-lt); }
+.about-body {
+  font-size: 13.5px;
+  color: var(--mist);
+  line-height: 1.85;
+  margin-bottom: 36px;
+}
+.about-credentials {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+  border-left: 1px solid var(--gold-hr);
+  padding-left: 24px;
+}
+.about-cred-item {
+  font-size: 11.5px;
+  color: var(--mist);
+}
+.about-cred-item strong {
+  display: block;
+  font-size: 12.5px;
+  color: var(--gold-lt);
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+/* ══════════════════════════════════════════
+   STATS
+══════════════════════════════════════════ */
+.stats-section {
+  background: var(--ink-mid);
+  border-top: 1px solid var(--gold-hr);
+  border-bottom: 1px solid var(--gold-hr);
+  padding: 60px 0;
+}
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-top: 10px;
+  display: block;
+}
+
+/* ══════════════════════════════════════════
+   SERVIÇOS
+══════════════════════════════════════════ */
+.services-section {
+  padding: 120px 0;
+  background: var(--ink);
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 300;
+  color: var(--white);
+  margin: 14px 0 18px;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--mist);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Service tabs */
+.service-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 52px;
+  border: 1px solid var(--gold-hr);
+  display: inline-flex;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+}
+.tab-btn {
+  padding: 12px 28px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mist);
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--gold-hr);
+  cursor: pointer;
+  transition: color .2s, background .2s;
+  font-family: var(--font-sans);
+}
+.tab-btn:last-child { border-right: none; }
+.tab-btn:hover { color: var(--gold); }
+.tab-btn.active {
+  background: var(--gold-dim);
+  color: var(--gold-lt);
+}
+
+/* Service panels */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Cards grid */
+.service-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.service-card {
+  position: relative;
+  padding: 44px 36px;
+  background: var(--ink-mid);
+  border: 1px solid transparent;
+  transition: border-color .3s, background .3s;
+  overflow: hidden;
+  cursor: default;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width .4s var(--ease);
+}
+.service-card:hover {
+  border-color: var(--gold-hr);
+  background: var(--ink-soft);
+}
+.service-card:hover::before { width: 100%; }
+.service-card-num {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--gold-dim);
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+  display: block;
+}
+.service-card-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+  display: block;
+  filter: grayscale(1) brightness(1.2);
+}
+.service-card h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--gold-lt);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.service-card p {
+  font-size: 12.5px;
+  color: var(--mist);
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+.service-card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.service-card-list li {
+  font-size: 11px;
+  color: var(--mist);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.4;
+}
+.service-card-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 10px;
+}
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 28px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s;
+}
+.card-cta:hover { border-color: var(--gold); }
+.card-cta::after { content: '→'; transition: transform .2s; }
+.card-cta:hover::after { transform: translateX(4px); }
+
+/* ══════════════════════════════════════════
+   TREATMENT JOURNEY
+══════════════════════════════════════════ */
+.journey-section {
+  padding: 120px 0;
+  background: var(--ink-mid);
+}
+.journey-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 60px;
+}
+.journey-step {
+  padding: 44px 32px;
+  border-right: 1px solid var(--gold-hr);
+  position: relative;
+}
+.journey-step:last-child { border-right: none; }
+.step-number {
+  font-family: var(--font-serif);
+  font-size: 72px;
+  font-weight: 300;
+  color: var(--gold-dim);
+  line-height: 1;
+  margin-bottom: 20px;
+  display: block;
+}
+.step-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--gold-lt);
+  margin-bottom: 12px;
+}
+.step-desc {
+  font-size: 12.5px;
+  color: var(--mist);
+  line-height: 1.8;
+}
+
+/* ══════════════════════════════════════════
+   TECNOLOGIAS
+══════════════════════════════════════════ */
+.tech-section {
+  padding: 120px 0;
+  background: var(--ink);
+}
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+}
+.tech-item {
+  padding: 36px 28px;
+  background: var(--ink-mid);
+  border: 1px solid transparent;
+  text-align: center;
+  transition: border-color .3s, transform .3s var(--ease-spring);
+}
+.tech-item:hover {
+  border-color: var(--gold-hr);
+  transform: translateY(-4px);
+}
+.tech-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 14px;
+}
+.tech-item h4 {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--gold-lt);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.tech-item p {
+  font-size: 11px;
+  color: var(--mist);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════
+   DEPOIMENTOS
+══════════════════════════════════════════ */
+.testimonials-section {
+  padding: 120px 0;
+  background: linear-gradient(160deg, var(--ink-mid) 0%, var(--ink) 100%);
+  overflow: hidden;
+}
+.testimonials-slider {
+  margin-top: 60px;
+  position: relative;
+}
+.testimonials-track {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 4px;
+}
+.testimonials-track::-webkit-scrollbar { display: none; }
+.testimonial-card {
+  min-width: 400px;
+  max-width: 400px;
+  padding: 44px 40px;
+  background: var(--ink-soft);
+  border: 1px solid var(--gold-hr);
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  position: relative;
+}
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 20px; right: 28px;
+  font-family: var(--font-serif);
+  font-size: 80px;
+  color: var(--gold-dim);
+  line-height: 1;
+}
+.testimonial-stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.testimonial-stars span {
+  color: var(--gold);
+  font-size: 12px;
+}
+.testimonial-text {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.testimonial-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--jade);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--gold);
+  flex-shrink: 0;
+  border: 1px solid var(--gold-dim);
+}
+.testimonial-name {
+  font-size: 12px;
+  color: var(--white);
+  font-weight: 400;
+  display: block;
+}
+.testimonial-proc {
+  font-size: 10px;
+  color: var(--mist);
+  letter-spacing: 1px;
+}
+.testimonials-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 36px;
+}
+.tNav-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--gold-hr);
+  background: transparent;
+  color: var(--gold);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+  font-family: var(--font-sans);
+}
+.tNav-btn:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+}
+
+/* ══════════════════════════════════════════
+   FAQ
+══════════════════════════════════════════ */
+.faq-section {
+  padding: 120px 0;
+  background: var(--ink);
+}
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+.faq-aside h3 {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.faq-aside p {
+  font-size: 13px;
+  color: var(--mist);
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.faq-item {
+  border-top: 1px solid var(--gold-hr);
+}
+.faq-item:last-child { border-bottom: 1px solid var(--gold-hr); }
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--white);
+  font-weight: 300;
+  transition: color .2s;
+  list-style: none;
+  user-select: none;
+}
+.faq-q:hover { color: var(--gold-lt); }
+.faq-icon {
+  width: 22px; height: 22px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform .3s, background .2s;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+  background: var(--gold-dim);
+}
+.faq-a {
+  font-size: 12.5px;
+  color: var(--mist);
+  line-height: 1.85;
+  padding-bottom: 20px;
+}
+
+/* ══════════════════════════════════════════
+   AGENDAMENTO
+══════════════════════════════════════════ */
+.booking-section {
+  padding: 120px 0;
+  background: var(--ink-mid);
+}
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+.booking-info h3 {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.booking-info p {
+  font-size: 13px;
+  color: var(--mist);
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.booking-contact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.booking-contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  color: var(--mist);
+}
+.contact-icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-group label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--ink);
+  border: 1px solid var(--gold-hr);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color .25s;
+  width: 100%;
+  -webkit-appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+.form-group select option { background: var(--ink-mid); }
+.form-group textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+.form-submit {
+  margin-top: 4px;
+}
+.form-submit .btn-primary {
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+}
+.form-note {
+  font-size: 10px;
+  color: var(--mist);
+  text-align: center;
+  margin-top: 10px;
+  opacity: .7;
+}
+/* Success message */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  border: 1px solid var(--gold-dim);
+  background: var(--ink-soft);
+}
+.form-success .icon { font-size: 40px; display: block; margin-bottom: 16px; }
+.form-success h4 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--gold-lt);
+  margin-bottom: 10px;
+}
+.form-success p { font-size: 13px; color: var(--mist); }
+
+/* ══════════════════════════════════════════
+   HORÁRIOS
+══════════════════════════════════════════ */
+.hours-section {
+  padding: 80px 0;
+  background: var(--ink);
+  border-top: 1px solid var(--gold-hr);
+  border-bottom: 1px solid var(--gold-hr);
+}
+.hours-inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.hours-block { text-align: center; }
+.hours-day {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mist);
+  display: block;
+  margin-bottom: 10px;
+}
+.hours-time {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 300;
+  color: var(--gold);
+  display: block;
+}
+.hours-divider {
+  width: 1px;
+  height: 60px;
+  background: var(--gold-hr);
+}
+
+/* ══════════════════════════════════════════
+   INSTAGRAM / SOCIAL
+══════════════════════════════════════════ */
+.social-section {
+  padding: 120px 0;
+  background: var(--ink-mid);
+}
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+}
+.social-post {
+  aspect-ratio: 1;
+  overflow: hidden;
+  position: relative;
+  background: var(--ink-soft);
+  cursor: pointer;
+}
+.social-post-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--ink-soft) 0%, var(--jade) 100%);
+  font-size: 28px;
+  color: rgba(201,169,110,.3);
+  transition: transform .4s;
+}
+.social-post:hover .social-post-placeholder {
+  transform: scale(1.06);
+}
+.social-post-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14,26,20,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.social-post:hover .social-post-overlay { opacity: 1; }
+.social-post-overlay span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.social-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+.social-btn {
+  width: 46px; height: 46px;
+  border: 1px solid var(--gold-hr);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  transition: background .25s, border-color .25s, color .25s;
+  font-family: var(--font-sans);
+}
+.social-btn:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  background: #060E09;
+  border-top: 1px solid var(--gold-hr);
+  padding: 72px 32px 36px;
+}
+.footer-grid {
+  max-width: 1220px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 60px;
+}
+.footer-brand h3 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--gold-lt);
+  margin-bottom: 6px;
+}
+.footer-brand .sub {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mist);
+  display: block;
+  margin-bottom: 18px;
+}
+.footer-brand p {
+  font-size: 12px;
+  color: var(--mist);
+  line-height: 1.8;
+  max-width: 260px;
+}
+.footer-col h4 {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li {
+  margin-bottom: 10px;
+}
+.footer-col a {
+  font-size: 12px;
+  color: var(--mist);
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--gold-lt); }
+address {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--mist);
+  line-height: 1.9;
+}
+address strong {
+  color: var(--gold-lt);
+  font-weight: 400;
+}
+.footer-bottom {
+  max-width: 1220px;
+  margin: 0 auto;
+  border-top: 1px solid var(--gold-hr);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p {
+  font-size: 10px;
+  color: var(--mist);
+  letter-spacing: 1px;
+}
+.footer-crm {
+  font-size: 10px;
+  color: var(--gold-dim);
+  letter-spacing: 1px;
+}
+/* Regulatory disclaimer */
+.footer-disclaimer {
+  max-width: 1220px;
+  margin: 24px auto 0;
+  font-size: 9.5px;
+  color: rgba(143,163,152,.45);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════
+   WHATSAPP FLOAT
+══════════════════════════════════════════ */
+.wa-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 800;
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,.3);
+  transition: transform .25s var(--ease-spring), box-shadow .25s;
+}
+.wa-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(37,211,102,.45);
+}
+.wa-float svg {
+  width: 26px; height: 26px;
+  fill: white;
+}
+/* Pulse ring */
+.wa-float::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid #25D366;
+  animation: waPulse 2s ease-out infinite;
+}
+@keyframes waPulse {
+  0% { opacity:.7; transform:scale(1); }
+  100% { opacity:0; transform:scale(1.4); }
+}
+
+/* ══════════════════════════════════════════
+   COOKIE BANNER
+══════════════════════════════════════════ */
+.cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,18,14,.97);
+  border-top: 1px solid var(--gold-hr);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  z-index: 700;
+  backdrop-filter: blur(8px);
+  transform: translateY(100%);
+  transition: transform .4s var(--ease);
+}
+.cookie-banner.show { transform: none; }
+.cookie-banner p { font-size: 11px; color: var(--mist); max-width: 600px; line-height: 1.6; }
+.cookie-banner p a { color: var(--gold); border-bottom: 1px solid var(--gold-dim); }
+.cookie-btn {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  padding: 10px 24px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  flex-shrink: 0;
+  transition: opacity .2s;
+}
+.cookie-btn:hover { opacity: .85; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .about-grid, .faq-grid, .booking-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-img-wrap { max-width: 440px; }
+  .service-cards { grid-template-columns: 1fr 1fr; }
+  .journey-steps { grid-template-columns: 1fr 1fr; }
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero-img-panel { display: none; }
+  .hero-headline { font-size: clamp(44px, 10vw, 70px); }
+  .social-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .container { padding: 0 20px; }
+  .service-cards { grid-template-columns: 1fr; }
+  .journey-steps { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hours-divider { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .testimonial-card { min-width: 300px; }
+  .social-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .cookie-banner { flex-direction: column; align-items: flex-start; }
+  .hero { padding-bottom: 60px; }
+  .about-section, .services-section, .journey-section,
+  .tech-section, .testimonials-section, .faq-section,
+  .booking-section, .social-section { padding: 80px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── COOKIE BANNER ── -->
+<div class="cookie-banner" id="cookieBanner">
+  <p>Utilizamos cookies para melhorar sua experiência e analisar o tráfego do site. Ao continuar navegando, você concorda com nossa <a href="#">Política de Privacidade</a>.</p>
+  <button class="cookie-btn" onclick="acceptCookies()">Aceitar</button>
+</div>
+
+<!-- ── WHATSAPP FLOAT ── -->
+<a href="https://wa.me/5511999999999" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <p class="mm-tag">Navegação</p>
+  <a href="#sobre" onclick="closeMobileMenu()">Sobre</a>
+  <a href="#servicos" onclick="closeMobileMenu()">Serviços</a>
+  <a href="#tecnologias" onclick="closeMobileMenu()">Tecnologias</a>
+  <a href="#depoimentos" onclick="closeMobileMenu()">Depoimentos</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#agendamento" onclick="closeMobileMenu()" style="color:var(--gold);">Agendar Consulta</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="nav-brand-name">Dra. Fulana de Tal</span>
+      <span class="nav-brand-sub">Farmacêutica Esteta · CRF-SP 000000</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li class="nav-item">
+        <a href="#servicos">Serviços ▾</a>
+        <div class="nav-drop">
+          <a href="#servicos">Estética Facial</a>
+          <a href="#servicos">Estética Corporal</a>
+          <a href="#servicos">Cosmetologia</a>
+          <a href="#servicos">Dermato-Funcional</a>
+          <a href="#servicos">Protocolos Exclusivos</a>
+        </div>
+      </li>
+      <li><a href="#tecnologias">Tecnologias</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#agendamento" class="nav-cta">Agendar</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()" role="button" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <!-- Imagem lateral — substitua hero.jpg pela sua foto -->
+  <div class="hero-img-panel">
+    <div class="hero-img-placeholder"></div>
+    <!-- <img src="hero.jpg" alt="Dra. Fulana de Tal"> -->
+  </div>
+
+  <div class="hero-content container">
+    <p class="hero-eyebrow">Farmacêutica Esteta · Curitiba, PR</p>
+    <h1 class="hero-headline">
+      Ciência &<br><em>Arte</em> na<br>sua pele.
+    </h1>
+    <p class="hero-sub">
+      Protocolos personalizados com base científica, tecnologia de ponta e o cuidado que você merece.
+    </p>
+    <div class="hero-actions">
+      <a href="#agendamento" class="btn-primary">Agendar Consulta</a>
+      <a href="#servicos" class="btn-ghost">Conhecer Serviços</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   MARQUEE
+══════════════════════════════════════════ -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>Estética Facial</span>
+    <span>Bioestimulação</span>
+    <span>Cosmetologia Avançada</span>
+    <span>Peeling Químico</span>
+    <span>Dermato-Funcional</span>
+    <span>Protocolo Anti-Aging</span>
+    <span>Laser e Luz Intensa</span>
+    <span>Harmonização</span>
+    <span>Estética Facial</span>
+    <span>Bioestimulação</span>
+    <span>Cosmetologia Avançada</span>
+    <span>Peeling Químico</span>
+    <span>Dermato-Funcional</span>
+    <span>Protocolo Anti-Aging</span>
+    <span>Laser e Luz Intensa</span>
+    <span>Harmonização</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+   SOBRE
+══════════════════════════════════════════ -->
+<section class="about-section" id="sobre">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap" data-reveal data-delay="1">
+        <div class="about-img-frame">
+          <!-- Substitua foto.jpg pela sua foto -->
+          <div style="width:100%;height:100%;background:linear-gradient(160deg,var(--jade) 0%,var(--ink) 100%);display:flex;align-items:center;justify-content:center;font-size:80px;color:rgba(201,169,110,.1);">✦</div>
+          <!-- <img src="foto.jpg" alt="Dra. Fulana de Tal"> -->
+        </div>
+        <div class="about-img-badge">
+          <span class="num">12+</span>
+          <span class="lbl">Anos de Experiência</span>
+        </div>
+      </div>
+
+      <div class="about-content" data-reveal data-delay="2">
+        <p class="tag about-tag">Sobre a Profissional</p>
+        <h2 class="about-title">
+          Uma abordagem<br><em>científica</em> para<br>a beleza real.
+        </h2>
+        <p class="about-body">
+          Farmacêutica formada e pós-graduada em Dermato-Funcional, Dra. Fulana de Tal combina o rigor científico da farmacologia com a sensibilidade estética para oferecer resultados visíveis, seguros e duradouros. Cada protocolo é desenhado individualmente, respeitando a fisiologia da pele e as necessidades reais de cada paciente.
+        </p>
+        <div class="about-credentials">
+          <div class="about-cred-item">
+            <strong>Farmácia — Universidade XYZ (2012)</strong>
+            Graduação com habilitação em Análises Clínicas e Cosmetologia
+          </div>
+          <div class="about-cred-item">
+            <strong>Pós-graduação em Dermato-Funcional — Instituto ABC</strong>
+            Especialização em protocolos faciais e corporais avançados
+          </div>
+          <div class="about-cred-item">
+            <strong>Membro da SBFDF · CRF-SP 000000</strong>
+            Atualização contínua em congressos nacionais e internacionais
+          </div>
+        </div>
+        <a href="#agendamento" class="btn-primary">Agendar Avaliação Gratuita</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   STATS
+══════════════════════════════════════════ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item" data-reveal data-delay="1">
+        <span class="stat-num" data-count="1800">0</span>
+        <span class="stat-label">Pacientes Atendidos</span>
+      </div>
+      <div class="stat-item" data-reveal data-delay="2">
+        <span class="stat-num" data-count="12">0</span>
+        <span class="stat-label">Anos de Experiência</span>
+      </div>
+      <div class="stat-item" data-reveal data-delay="3">
+        <span class="stat-num" data-count="40">0</span>
+        <span class="stat-label">Protocolos Exclusivos</span>
+      </div>
+      <div class="stat-item" data-reveal data-delay="4">
+        <span class="stat-num" data-count="98">0</span>
+        <span class="stat-label">% de Satisfação</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   SERVIÇOS
+══════════════════════════════════════════ -->
+<section class="services-section" id="servicos">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="tag">O Que Oferecemos</p>
+      <h2 class="section-title">Serviços & Procedimentos</h2>
+      <p class="section-sub">Cada tratamento é precedido de anamnese detalhada e análise de pele, garantindo segurança e eficácia reais.</p>
+    </div>
+
+    <div class="service-tabs" id="serviceTabs">
+      <button class="tab-btn active" data-tab="facial">Facial</button>
+      <button class="tab-btn" data-tab="corporal">Corporal</button>
+      <button class="tab-btn" data-tab="cosmetologia">Cosmetologia</button>
+      <button class="tab-btn" data-tab="especiais">Protocolos Especiais</button>
+    </div>
+
+    <!-- FACIAL -->
+    <div class="tab-panel active" id="tab-facial">
+      <div class="service-cards">
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="service-card-num">01</span>
+          <span class="service-card-icon">✨</span>
+          <h3>Limpeza de Pele Avançada</h3>
+          <p>Protocolo completo de higienização, extração e hidratação adaptado ao seu tipo de pele.</p>
+          <ul class="service-card-list">
+            <li>Análise cutânea por dermatoscopia</li>
+            <li>Extração manual e ultrassônica</li>
+            <li>Ativo cosmético personalizado</li>
+            <li>Alta-frequência e iontoforese</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="2">
+          <span class="service-card-num">02</span>
+          <span class="service-card-icon">🌿</span>
+          <h3>Peeling Químico</h3>
+          <p>Renovação celular com ácidos controlados para manchas, acne e envelhecimento precoce.</p>
+          <ul class="service-card-list">
+            <li>Glicólico, Mandélico, Retinóico</li>
+            <li>Protocolos para melasma e acne</li>
+            <li>Peeling de Jessner adaptado</li>
+            <li>Pós-procedimento monitorado</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="3">
+          <span class="service-card-num">03</span>
+          <span class="service-card-icon">💉</span>
+          <h3>Bioestimulação de Colágeno</h3>
+          <p>Estímulo natural à produção de colágeno com ativos injetáveis e não-invasivos.</p>
+          <ul class="service-card-list">
+            <li>Skinbooster e Profhilo</li>
+            <li>Mesoterapia facial</li>
+            <li>Microagulhamento com growth factors</li>
+            <li>Radiofrequência associada</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="service-card-num">04</span>
+          <span class="service-card-icon">🔬</span>
+          <h3>Protocolo Anti-Manchas JK</h3>
+          <p>Combinação sinérgica de despigmentantes para redução de hiperpigmentação localizada.</p>
+          <ul class="service-card-list">
+            <li>Diagnóstico com lâmpada Wood</li>
+            <li>Ácidos despigmentantes associados</li>
+            <li>Proteção solar personalizada</li>
+            <li>Acompanhamento fotográfico</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="2">
+          <span class="service-card-num">05</span>
+          <span class="service-card-icon">⚡</span>
+          <h3>Microagulhamento</h3>
+          <p>Indução percutânea de colágeno para rejuvenescimento, cicatrizes e poros dilatados.</p>
+          <ul class="service-card-list">
+            <li>Protocolo com soro autólogo (PRP)</li>
+            <li>Vitamina C estabilizada</li>
+            <li>Preencher sulcos e cicatrizes</li>
+            <li>Tratamento para rosácea</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="3">
+          <span class="service-card-num">06</span>
+          <span class="service-card-icon">🌸</span>
+          <h3>Hydra Facial Personalizado</h3>
+          <p>Hidratação profunda com infusão de ativos premium adaptados à necessidade da sua pele.</p>
+          <ul class="service-card-list">
+            <li>Ácido hialurônico de baixo peso</li>
+            <li>Niacinamida e peptídeos</li>
+            <li>Máscara LED fotobiomodulação</li>
+            <li>Manutenção mensal recomendada</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CORPORAL -->
+    <div class="tab-panel" id="tab-corporal">
+      <div class="service-cards">
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="service-card-num">01</span>
+          <span class="service-card-icon">🏃</span>
+          <h3>Redução de Medidas</h3>
+          <p>Protocolos corporais de lipólise enzimática e drenagem linfática para modelagem corporal.</p>
+          <ul class="service-card-list">
+            <li>Enzimas lipolíticas injetáveis</li>
+            <li>Ultrassom cavitacional</li>
+            <li>Drenagem linfática manual</li>
+            <li>Manta térmica associada</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="2">
+          <span class="service-card-num">02</span>
+          <span class="service-card-icon">🌊</span>
+          <h3>Tratamento de Celulite</h3>
+          <p>Abordagem multifatorial para fibrose, retenção hídrica e circulação deficiente.</p>
+          <ul class="service-card-list">
+            <li>Carboxiterapia local</li>
+            <li>Subcisão não-cirúrgica</li>
+            <li>Radiofrequência tripolar</li>
+            <li>Laserterapia de baixa potência</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="3">
+          <span class="service-card-num">03</span>
+          <span class="service-card-icon">💪</span>
+          <h3>Tonificação & Flacidez</h3>
+          <p>Eletroestimulação e radiofrequência para firmeza e tonicidade muscular e cutânea.</p>
+          <ul class="service-card-list">
+            <li>TENS e FES muscular</li>
+            <li>Radiofrequência focada</li>
+            <li>Microcorrentes bioestimulantes</li>
+            <li>Criolipólise controlada</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="service-card-num">04</span>
+          <span class="service-card-icon">☀️</span>
+          <h3>Manchas Corporais</h3>
+          <p>Despigmentação de estrias, manchas de sol e hiperpigmentação pós-inflamatória corporal.</p>
+          <ul class="service-card-list">
+            <li>Microagulhamento corporal</li>
+            <li>Peeling químico corporal</li>
+            <li>Clareamento de axila e virilha</li>
+            <li>Tratamento de estrias</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="2">
+          <span class="service-card-num">05</span>
+          <span class="service-card-icon">🧴</span>
+          <h3>Wrap Corporal Premium</h3>
+          <p>Esfoliação, modelagem e hidratação intensiva com ativos naturais e termogênicos.</p>
+          <ul class="service-card-list">
+            <li>Esfoliação com cristais ativos</li>
+            <li>Máscara modeladora argila</li>
+            <li>Óleo corporal personalizado</li>
+            <li>Automassagem ensinada</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="3">
+          <span class="service-card-num">06</span>
+          <span class="service-card-icon">💆</span>
+          <h3>Pré & Pós-Operatório</h3>
+          <p>Preparação e recuperação para procedimentos cirúrgicos com protocolos específicos.</p>
+          <ul class="service-card-list">
+            <li>Drenagem linfática pós-op</li>
+            <li>Cicatrização e queloides</li>
+            <li>Reabilitação do contorno</li>
+            <li>Protocolo linfático intensivo</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COSMETOLOGIA -->
+    <div class="tab-panel" id="tab-cosmetologia">
+      <div class="service-cards">
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="service-card-num">01</span>
+          <span class="service-card-icon">🧪</span>
+          <h3>Cosméticos Manipulados</h3>
+          <p>Formulações personalizadas desenvolvidas exclusivamente para a sua pele e objetivos.</p>
+          <ul class="service-card-list">
+            <li>Sérum facial personalizado</li>
+            <li>Protetor solar sob medida</li>
+            <li>Ativo despigmentante exclusivo</li>
+            <li>Hidratante noturno reparador</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Solicitar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="2">
+          <span class="service-card-num">02</span>
+          <span class="service-card-icon">📋</span>
+          <h3>Consultoria de Skincare</h3>
+          <p>Análise completa da sua rotina de cuidados e reformulação com base científica.</p>
+          <ul class="service-card-list">
+            <li>Mapeamento cutâneo digital</li>
+            <li>Revisão de produtos em uso</li>
+            <li>Rotina AM e PM personalizada</li>
+            <li>Guia de ativos e compatibilidades</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Agendar</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="3">
+          <span class="service-card-num">03</span>
+          <span class="service-card-icon">🌱</span>
+          <h3>Cosmética Natural</h3>
+          <p>Alternativas com ativos botânicos e formulações clean, para peles sensíveis e reativas.</p>
+          <ul class="service-card-list">
+            <li>Extratos vegetais certificados</li>
+            <li>Sem fragrâncias sintéticas</li>
+            <li>Óleos vegetais bioativos</li>
+            <li>Rotina vegana disponível</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Solicitar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROTOCOLOS ESPECIAIS -->
+    <div class="tab-panel" id="tab-especiais">
+      <div class="service-cards">
+        <div class="service-card" data-reveal data-delay="1">
+          <span class="service-card-num">01</span>
+          <span class="service-card-icon">👑</span>
+          <h3>Protocolo Prime Skin</h3>
+          <p>Tratamento premium intensivo de renovação completa para eventos, casamentos e ocasiões especiais.</p>
+          <ul class="service-card-list">
+            <li>8 sessões em 4 semanas</li>
+            <li>Peeling + microagulhamento + LED</li>
+            <li>Cosméticos manipulados inclusos</li>
+            <li>Acompanhamento WhatsApp</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Saber Mais</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="2">
+          <span class="service-card-num">02</span>
+          <span class="service-card-icon">🔄</span>
+          <h3>Protocolo Reset</h3>
+          <p>Reequilíbrio intensivo para peles estressadas, com oleosidade, acne ativa ou pós-pandemia.</p>
+          <ul class="service-card-list">
+            <li>6 sessões personalizadas</li>
+            <li>Dieta cosmética orientada</li>
+            <li>Suplementação integrada</li>
+            <li>Reavaliação mensal gratuita</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Saber Mais</a>
+        </div>
+        <div class="service-card" data-reveal data-delay="3">
+          <span class="service-card-num">03</span>
+          <span class="service-card-icon">⏳</span>
+          <h3>Protocolo Longevidade</h3>
+          <p>Plano preventivo e anti-aging para manter a pele jovem por mais tempo, com ciência.</p>
+          <ul class="service-card-list">
+            <li>Avaliação semestral completa</li>
+            <li>Bioestimulação preventiva</li>
+            <li>Rastreio fotográfico anual</li>
+            <li>Rotina cosmética evolutiva</li>
+          </ul>
+          <a href="#agendamento" class="card-cta">Saber Mais</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   JORNADA DO TRATAMENTO
+══════════════════════════════════════════ -->
+<section class="journey-section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="tag">Como Funciona</p>
+      <h2 class="section-title">Sua Jornada de Cuidado</h2>
+    </div>
+    <div class="journey-steps">
+      <div class="journey-step" data-reveal data-delay="1">
+        <span class="step-number">01</span>
+        <h3 class="step-title">Avaliação Inicial</h3>
+        <p class="step-desc">Anamnese detalhada, análise de pele com equipamento digital e conversa sobre seus objetivos reais.</p>
+      </div>
+      <div class="journey-step" data-reveal data-delay="2">
+        <span class="step-number">02</span>
+        <h3 class="step-title">Protocolo Personalizado</h3>
+        <p class="step-desc">Desenho do plano de tratamento exclusivo, com cronograma de sessões e cosméticos indicados.</p>
+      </div>
+      <div class="journey-step" data-reveal data-delay="3">
+        <span class="step-number">03</span>
+        <h3 class="step-title">Tratamento Contínuo</h3>
+        <p class="step-desc">Sessões monitoradas com ajustes conforme a resposta da sua pele, garantindo segurança em cada etapa.</p>
+      </div>
+      <div class="journey-step" data-reveal data-delay="4">
+        <span class="step-number">04</span>
+        <h3 class="step-title">Manutenção & Resultado</h3>
+        <p class="step-desc">Acompanhamento fotográfico, plano de manutenção e suporte contínuo para resultados duradouros.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   TECNOLOGIAS
+══════════════════════════════════════════ -->
+<section class="tech-section" id="tecnologias">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="tag">Equipamentos</p>
+      <h2 class="section-title">Tecnologias Utilizadas</h2>
+      <p class="section-sub">Equipamentos certificados pela ANVISA para resultados seguros e eficazes.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-item" data-reveal data-delay="1">
+        <span class="tech-icon">⚡</span>
+        <h4>Radiofrequência</h4>
+        <p>Remodelação dérmica e estimulação de colágeno</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="2">
+        <span class="tech-icon">🔵</span>
+        <h4>LED Fotobiomodulação</h4>
+        <p>Anti-inflamatório, cicatrizante e anti-aging</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="3">
+        <span class="tech-icon">🔊</span>
+        <h4>Ultrassom Cavitacional</h4>
+        <p>Lipólise não-invasiva e modelagem corporal</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="4">
+        <span class="tech-icon">🌀</span>
+        <h4>Microagulhamento Elétrico</h4>
+        <p>Indução de colágeno e veiculação de ativos</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="1">
+        <span class="tech-icon">❄️</span>
+        <h4>Criolipólise</h4>
+        <p>Eliminação de gordura localizada por resfriamento</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="2">
+        <span class="tech-icon">💨</span>
+        <h4>Carboxiterapia</h4>
+        <p>Oxigenação tecidual e tratamento de celulite</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="3">
+        <span class="tech-icon">🔬</span>
+        <h4>Dermatoscopia Digital</h4>
+        <p>Análise de pele de alta resolução e mapeamento</p>
+      </div>
+      <div class="tech-item" data-reveal data-delay="4">
+        <span class="tech-icon">✨</span>
+        <h4>Luz Intensa Pulsada</h4>
+        <p>Fotorejuvenescimento e tratamento vascular</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   DEPOIMENTOS
+══════════════════════════════════════════ -->
+<section class="testimonials-section" id="depoimentos">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="tag">Quem Já Viveu</p>
+      <h2 class="section-title">A Experiência em Palavras</h2>
+      <p class="section-sub">Resultados reais de pacientes reais, sem filtros e sem exageros.</p>
+    </div>
+  </div>
+  <div class="container" style="overflow:hidden;">
+    <div class="testimonials-slider">
+      <div class="testimonials-track" id="testimonialsTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="testimonial-text">"Nunca pensei que minha pele pudesse mudar tanto em tão pouco tempo. O protocolo anti-manchas foi transformador, com acompanhamento em cada etapa."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <span class="testimonial-name">Ana Paula M.</span>
+              <span class="testimonial-proc">Protocolo Anti-Manchas · 3 meses</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="testimonial-text">"A Dra. Fulana tem uma visão diferente — ela explica tudo com base científica e você entende o porquê de cada etapa. Isso faz toda a diferença."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">C</div>
+            <div>
+              <span class="testimonial-name">Carolina S.</span>
+              <span class="testimonial-proc">Peeling Químico + LED · 6 sessões</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="testimonial-text">"Fiz a consultoria de skincare e joguei fora metade dos produtos que usava errado. Os manipulados que ela indicou são incríveis, pele transformada."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">R</div>
+            <div>
+              <span class="testimonial-name">Renata K.</span>
+              <span class="testimonial-proc">Consultoria de Skincare + Cosméticos</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="testimonial-text">"A drenagem pós-operatória acelerou muito minha recuperação. Profissional incrível, ambiente super aconchegante e resultado acima do esperado."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <span class="testimonial-name">Mariana T.</span>
+              <span class="testimonial-proc">Drenagem Pós-Operatória · 10 sessões</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="testimonial-text">"Minha acne nunca respondeu a nada. O Protocolo Reset foi a primeira coisa que funcionou de verdade. Seis sessões e minha pele está irreconhecível — de bom."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">J</div>
+            <div>
+              <span class="testimonial-name">Juliana F.</span>
+              <span class="testimonial-proc">Protocolo Reset · Acne Adulta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonials-nav">
+        <button class="tNav-btn" id="tPrev">←</button>
+        <button class="tNav-btn" id="tNext">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   FAQ
+══════════════════════════════════════════ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="faq-aside" data-reveal data-delay="1">
+        <p class="tag" style="margin-bottom:16px;">Dúvidas Frequentes</p>
+        <h3>Tudo que você precisa saber antes de agendar.</h3>
+        <p>Transparência é parte do nosso cuidado. Se sua dúvida não estiver aqui, estamos no WhatsApp.</p>
+        <a href="https://wa.me/5511999999999" class="btn-ghost" style="margin-top:8px;">Falar pelo WhatsApp</a>
+      </div>
+      <div class="faq-list" data-reveal data-delay="2">
+        <details class="faq-item">
+          <summary class="faq-q">
+            A farmacêutica esteta pode fazer procedimentos estéticos?
+            <span class="faq-icon">+</span>
+          </summary>
+          <p class="faq-a">Sim. O farmacêutico com especialização em Dermato-Funcional está habilitado pelo CRF e pela legislação vigente para realizar uma ampla gama de procedimentos estéticos não-invasivos e minimamente invasivos, incluindo peelings, microagulhamento, toxina botulínica e preenchimentos (com habilitação específica).</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">
+            Quantas sessões são necessárias para ver resultado?
+            <span class="faq-icon">+</span>
+          </summary>
+          <p class="faq-a">Depende do procedimento e da condição da sua pele. Peelings geralmente mostram resultados visíveis a partir da 2ª ou 3ª sessão. Para bioestimulação e microagulhamento, o colágeno é formado progressivamente, com melhora evidente a partir de 30 dias após a 1ª sessão. Na avaliação inicial você receberá uma estimativa realista para o seu caso.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">
+            Os procedimentos são dolorosos?
+            <span class="faq-icon">+</span>
+          </summary>
+          <p class="faq-a">A maioria dos procedimentos é de baixa a moderada sensibilidade. Para técnicas que envolvem agulhas ou peelings mais profundos, utilizamos anestesia tópica para garantir o máximo conforto. Cada paciente tem um limiar de sensibilidade diferente e isso é sempre considerado antes de iniciar o procedimento.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">
+            Existe período de recuperação após os tratamentos?
+            <span class="faq-icon">+</span>
+          </summary>
+          <p class="faq-a">Procedimentos como limpeza de pele e LED não têm recuperação. Peelings medianos e microagulhamento podem causar vermelhidão e descamação por 2 a 5 dias. Você receberá um guia completo de pós-procedimento e estará em contato direto comigo via WhatsApp para qualquer dúvida durante a recuperação.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">
+            Como funciona a consulta de avaliação?
+            <span class="faq-icon">+</span>
+          </summary>
+          <p class="faq-a">A avaliação inicial dura cerca de 60 minutos. Fazemos uma anamnese completa, análise digital de pele, conversa sobre seus objetivos e histórico de saúde. Ao final, você recebe uma proposta de protocolo detalhada, sem compromisso de contratação. A consulta é gratuita para novos pacientes.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">
+            Vocês atendem por convênio?
+            <span class="faq-icon">+</span>
+          </summary>
+          <p class="faq-a">Os procedimentos estéticos geralmente não são cobertos por convênios médicos. Trabalhamos com pagamento particular e oferecemos parcelamento em até 12x no cartão de crédito. Para alguns casos com indicação dermatológica específica, orientamos a busca pelo convênio para a consulta médica prévia.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   AGENDAMENTO
+══════════════════════════════════════════ -->
+<section class="booking-section" id="agendamento">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="tag">Entre em Contato</p>
+      <h2 class="section-title">Agende sua Avaliação</h2>
+      <p class="section-sub">Primeira consulta gratuita. Preencha o formulário e entraremos em contato em até 24 horas.</p>
+    </div>
+    <div class="booking-grid">
+      <div class="booking-info" data-reveal data-delay="1">
+        <h3>Vamos conversar sobre a sua pele?</h3>
+        <p>Cada pele tem uma história. Antes de qualquer protocolo, quero entender a sua. Agende uma avaliação e descubra o que é possível alcançar com ciência e cuidado personalizado.</p>
+        <ul class="booking-contact-list">
+          <li>
+            <span class="contact-icon">📍</span>
+            Rua das Flores, 123 — Centro<br>Curitiba, PR — CEP 80000-000
+          </li>
+          <li>
+            <span class="contact-icon">📞</span>
+            (41) 99999-9999 — WhatsApp disponível
+          </li>
+          <li>
+            <span class="contact-icon">📧</span>
+            contato@drfulanadetal.com.br
+          </li>
+          <li>
+            <span class="contact-icon">⏰</span>
+            Seg–Sex: 9h às 19h &nbsp;·&nbsp; Sáb: 9h às 13h
+          </li>
+        </ul>
+      </div>
+
+      <div data-reveal data-delay="2">
+        <div id="bookingForm" class="booking-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome Completo</label>
+              <input type="text" id="nome" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+              <label for="telefone">WhatsApp</label>
+              <input type="tel" id="telefone" placeholder="(41) 99999-9999">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" placeholder="seu@email.com">
+            </div>
+            <div class="form-group">
+              <label for="servico">Interesse</label>
+              <select id="servico">
+                <option value="" disabled selected>Selecionar…</option>
+                <option>Estética Facial</option>
+                <option>Estética Corporal</option>
+                <option>Cosmetologia / Skincare</option>
+                <option>Protocolo Especial</option>
+                <option>Pré / Pós-Operatório</option>
+                <option>Não sei — quero avaliação</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mensagem">Conte um pouco sobre você (opcional)</label>
+            <textarea id="mensagem" placeholder="Principais queixas, histórico relevante…"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="preferencia">Preferência de Contato</label>
+              <select id="preferencia">
+                <option>WhatsApp</option>
+                <option>E-mail</option>
+                <option>Ligação</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="periodo">Melhor Período</label>
+              <select id="periodo">
+                <option>Manhã (9h–12h)</option>
+                <option>Tarde (13h–17h)</option>
+                <option>Noite (17h–19h)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button class="btn-primary" onclick="submitForm()">Solicitar Agendamento</button>
+          </div>
+          <p class="form-note">Seus dados são tratados com total sigilo conforme a LGPD.</p>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <span class="icon">✦</span>
+          <h4>Recebemos sua solicitação!</h4>
+          <p>Entraremos em contato pelo canal de sua preferência em até 24 horas. Obrigada pela confiança.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   HORÁRIOS
+══════════════════════════════════════════ -->
+<section class="hours-section">
+  <div class="container">
+    <div class="hours-inner">
+      <div class="hours-block">
+        <span class="hours-day">Segunda a Sexta</span>
+        <span class="hours-time">9h — 19h</span>
+      </div>
+      <div class="hours-divider"></div>
+      <div class="hours-block">
+        <span class="hours-day">Sábado</span>
+        <span class="hours-time">9h — 13h</span>
+      </div>
+      <div class="hours-divider"></div>
+      <div class="hours-block">
+        <span class="hours-day">Domingo</span>
+        <span class="hours-time">Fechado</span>
+      </div>
+      <div class="hours-divider"></div>
+      <div class="hours-block">
+        <span class="hours-day">Feriados</span>
+        <span class="hours-time">Sob Consulta</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   SOCIAL / INSTAGRAM
+══════════════════════════════════════════ -->
+<section class="social-section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="tag">@drfulanadetal</p>
+      <h2 class="section-title">Acompanhe no Instagram</h2>
+      <p class="section-sub">Dicas de skincare, bastidores e resultados reais todos os dias.</p>
+    </div>
+    <div class="social-grid" data-reveal>
+      <!-- Substitua pelas suas fotos reais -->
+      <div class="social-post">
+        <div class="social-post-placeholder">🌿</div>
+        <div class="social-post-overlay"><span>Ver Post</span></div>
+      </div>
+      <div class="social-post">
+        <div class="social-post-placeholder">✨</div>
+        <div class="social-post-overlay"><span>Ver Post</span></div>
+      </div>
+      <div class="social-post">
+        <div class="social-post-placeholder">🧪</div>
+        <div class="social-post-overlay"><span>Ver Post</span></div>
+      </div>
+      <div class="social-post">
+        <div class="social-post-placeholder">💚</div>
+        <div class="social-post-overlay"><span>Ver Post</span></div>
+      </div>
+      <div class="social-post">
+        <div class="social-post-placeholder">🌸</div>
+        <div class="social-post-overlay"><span>Ver Post</span></div>
+      </div>
+    </div>
+    <div class="social-actions">
+      <a href="#" class="social-btn" target="_blank" rel="noopener" title="Instagram">IG</a>
+      <a href="#" class="social-btn" target="_blank" rel="noopener" title="Facebook">FB</a>
+      <a href="#" class="social-btn" target="_blank" rel="noopener" title="YouTube">YT</a>
+      <a href="#" class="social-btn" target="_blank" rel="noopener" title="TikTok">TK</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Dra. Fulana de Tal</h3>
+      <span class="sub">Farmacêutica Esteta</span>
+      <p>Ciência aplicada à beleza real. Protocolos personalizados, resultados visíveis e cuidado que vai além do procedimento.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#servicos">Estética Facial</a></li>
+        <li><a href="#servicos">Estética Corporal</a></li>
+        <li><a href="#servicos">Cosmetologia</a></li>
+        <li><a href="#servicos">Protocolos Especiais</a></li>
+        <li><a href="#servicos">Pré/Pós-Operatório</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="#sobre">Sobre a Profissional</a></li>
+        <li><a href="#tecnologias">Tecnologias</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+        <li><a href="#faq">Perguntas Frequentes</a></li>
+        <li><a href="#agendamento">Agendar Consulta</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Localização</h4>
+      <address>
+        <strong>Curitiba — PR</strong><br>
+        Rua das Flores, 123<br>
+        Centro, Curitiba — PR<br>
+        CEP 80000-000<br><br>
+        <strong>Contato</strong><br>
+        (41) 99999-9999<br>
+        contato@drfulanadetal.com.br
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Dra. Fulana de Tal · Farmacêutica Esteta · Todos os direitos reservados</p>
+    <span class="footer-crm">CRF-SP 000000 · CNPJ 00.000.000/0001-00</span>
+  </div>
+  <p class="footer-disclaimer">
+    Os procedimentos realizados são de competência da profissional habilitada conforme Resolução CFF nº 631/2015 e legislação vigente. Imagens meramente ilustrativas. Resultados individuais podem variar. Este site não tem finalidade de diagnóstico médico.
+  </p>
+</footer>
+
+<!-- ══════════════════════════════════════════
+   SCRIPTS
+══════════════════════════════════════════ -->
+<script>
+/* NAV scroll */
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* Mobile menu */
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const ham  = document.getElementById('hamburger');
+  const open = menu.classList.toggle('open');
+  ham.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* Scroll reveal */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+
+/* Counter animation */
+function animateCount(el) {
+  const target = parseInt(el.dataset.count);
+  const isPercent = target >= 98;
+  let start = 0;
+  const dur = 1600;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const prog = Math.min((timestamp - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - prog, 3);
+    el.textContent = Math.floor(ease * target) + (isPercent ? '%' : '+');
+    if (prog < 1) requestAnimationFrame(step);
+    else el.textContent = target + (isPercent ? '%' : '+');
+  };
+  requestAnimationFrame(step);
+}
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCount(e.target); countObs.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+/* Service tabs */
+document.getElementById('serviceTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+});
+
+/* Testimonials slider */
+const tTrack = document.getElementById('testimonialsTrack');
+const cardW  = 416; // 400 + 16 gap
+document.getElementById('tPrev').onclick = () => tTrack.scrollBy({ left: -cardW, behavior: 'smooth' });
+document.getElementById('tNext').onclick = () => tTrack.scrollBy({ left:  cardW, behavior: 'smooth' });
+
+/* Form submit */
+function submitForm() {
+  const nome = document.getElementById('nome').value.trim();
+  const tel  = document.getElementById('telefone').value.trim();
+  if (!nome || !tel) { alert('Por favor, preencha nome e WhatsApp.'); return; }
+  document.getElementById('bookingForm').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+/* Cookie banner */
+function acceptCookies() {
+  document.getElementById('cookieBanner').classList.remove('show');
+  localStorage.setItem('cookiesAccepted', '1');
+}
+window.addEventListener('load', () => {
+  if (!localStorage.getItem('cookiesAccepted')) {
+    setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1200);
+  }
+});
+</script>
+
+</body>
+</html>
